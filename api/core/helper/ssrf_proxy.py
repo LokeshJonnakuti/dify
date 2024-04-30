@@ -38,7 +38,7 @@ def patch(url, *args, **kwargs):
     return _patch(url=url, *args, proxies=httpx_proxies, **kwargs)
 
 def delete(url, *args, **kwargs):
-    return _delete(url=url, *args, proxies=requests_proxies, **kwargs)
+    return _delete(url=url, *args, proxies=requests_proxies, **kwargs, timeout=60)
 
 def head(url, *args, **kwargs):
     return _head(url=url, *args, proxies=httpx_proxies, **kwargs)
