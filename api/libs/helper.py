@@ -1,4 +1,3 @@
-import random
 import re
 import string
 import subprocess
@@ -8,6 +7,7 @@ from hashlib import sha256
 from zoneinfo import available_timezones
 
 from flask_restful import fields
+import secrets
 
 
 def run(script):
@@ -125,7 +125,7 @@ def generate_string(n):
     letters_digits = string.ascii_letters + string.digits
     result = ""
     for i in range(n):
-        result += random.choice(letters_digits)
+        result += secrets.choice(letters_digits)
 
     return result
 
