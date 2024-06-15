@@ -3,7 +3,7 @@ import re
 import uuid
 from json import loads as json_loads
 
-from requests import get
+from security.safe_requests import get
 from yaml import FullLoader, load
 
 from core.tools.entities.common_entities import I18nObject
