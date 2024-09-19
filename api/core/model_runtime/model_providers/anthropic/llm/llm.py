@@ -4,7 +4,6 @@ from collections.abc import Generator
 from typing import Optional, Union, cast
 
 import anthropic
-import requests
 from anthropic import Anthropic, Stream
 from anthropic.types import (
     ContentBlockDeltaEvent,
@@ -39,6 +38,7 @@ from core.model_runtime.errors.invoke import (
 )
 from core.model_runtime.errors.validate import CredentialsValidateFailedError
 from core.model_runtime.model_providers.__base.large_language_model import LargeLanguageModel
+from security import safe_requests
 
 ANTHROPIC_BLOCK_MODE_PROMPT = """You should always follow the instructions and output a valid {{block}} object.
 The structure of the {{block}} object you can found in the instructions, use {"answer": "$your_answer"} as the default structure
@@ -375,7 +375,7 @@ class AnthropicLargeLanguageModel(LargeLanguageModel):
                         if not message_content.data.startswith("data:"):
                             # fetch image data from url
                             try:
-                                image_content = requests.get(message_content.data).content
+                                image_content = safe_requests.get(message_content.data).content
                                 mime_type, _ = mimetypes.guess_type(message_content.data)
                                 base64_data = base64.b64encode(image_content).decode('utf-8')
                             except Exception as ex:
