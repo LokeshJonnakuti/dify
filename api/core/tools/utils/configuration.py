@@ -15,6 +15,7 @@ from core.tools.entities.tool_entities import (
 )
 from core.tools.provider.tool_provider import ToolProviderController
 from core.tools.tool.tool import Tool
+import yaml
 
 
 class ToolConfigurationManager(BaseModel):
@@ -249,7 +250,7 @@ class ModelToolConfigurationManager:
         for file in files:
             provider = file.split('.')[0]
             with open(os.path.join(model_tools_path, file), encoding='utf-8') as f:
-                configurations = ModelToolProviderConfiguration(**load(f, Loader=FullLoader))
+                configurations = ModelToolProviderConfiguration(**load(f, Loader=yaml.SafeLoader))
                 models = configurations.models or []
                 for model in models:
                     model_key = f'{provider}.{model.model}'

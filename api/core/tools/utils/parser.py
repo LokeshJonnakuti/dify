@@ -10,6 +10,7 @@ from core.tools.entities.common_entities import I18nObject
 from core.tools.entities.tool_bundle import ApiBasedToolBundle
 from core.tools.entities.tool_entities import ApiProviderSchemaType, ToolParameter
 from core.tools.errors import ToolApiSchemaError, ToolNotSupportedError, ToolProviderNotFoundError
+import yaml
 
 
 class ApiBasedToolSchemaParser:
@@ -184,7 +185,7 @@ class ApiBasedToolSchemaParser:
         warning = warning if warning is not None else {}
         extra_info = extra_info if extra_info is not None else {}
 
-        openapi: dict = load(yaml, Loader=FullLoader)
+        openapi: dict = load(yaml, Loader=yaml.SafeLoader)
         if openapi is None:
             raise ToolApiSchemaError('Invalid openapi yaml.')
         return ApiBasedToolSchemaParser.parse_openapi_to_tool_bundle(openapi, extra_info=extra_info, warning=warning)
@@ -282,7 +283,7 @@ class ApiBasedToolSchemaParser:
         warning = warning if warning is not None else {}
         extra_info = extra_info if extra_info is not None else {}
 
-        swagger: dict = load(yaml, Loader=FullLoader)
+        swagger: dict = load(yaml, Loader=yaml.SafeLoader)
 
         openapi = ApiBasedToolSchemaParser.parse_swagger_to_openapi(swagger, extra_info=extra_info, warning=warning)
         return ApiBasedToolSchemaParser.parse_openapi_to_tool_bundle(openapi, extra_info=extra_info, warning=warning)
