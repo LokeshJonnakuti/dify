@@ -63,7 +63,7 @@ class TavilySearch:
             "include_raw_content": include_raw_content,
             "include_images": include_images,
         }
-        response = requests.post(f"{TAVILY_API_URL}/search", json=params)
+        response = requests.post(f"{TAVILY_API_URL}/search", json=params, timeout=60)
         response.raise_for_status()
         return response.json()
 
